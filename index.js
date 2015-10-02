@@ -28,6 +28,8 @@ http://oilers.cdnllnwnl.neulion.net/s/oilers/vod/flv/2015/09/29/838416_20150929_
 http://sharks.cdnllnwnl.neulion.net/u/sharks/vod/flv/2015/09/30/838628_20150929_Burns_Goal_sd.mp4
 http://sharks.cdnllnwnl.neulion.net/s/sharks/vod/flv/2015/09/30/838628_20150929_Burns_Goal.mp4?eid=838019&pid=838628&gid=3025&pt=1?eid=838019&pid=838628&gid=3025&pt=1"
 
+http://nhl.cdnllnwnl.neulion.net/u/nhlmobile/vod/nhl/2013/03/14/401/pc/2_401_lak_sjs_1213_h_quickpick1_1_1600K_16x9_sd.mp4
+http://nhl.cdnllnwnl.neulion.net/u/nhlmobile/vod/nhl/2013/03/14/401/pc/2_401_lak_sjs_1213_h_quickpick1_1_1600K_16x9.mp4?eid=220822&pid=220991&gid=3025&pt=1
 
 /*
     _console.playVideo("fvod","838416","http://oilers.cdnllnwnl.neulion.net/s/oilers/vod/flv/2015/09/29/838416_20150929_landergoal2.mp4?eid=837807&pid=838416&gid=3012&pt=1?eid=837807&pid=838416&gid=3012&pt=1","OIL GAUGE  Anton Lander makes it 2-0.","1",false,null,true,"4","0","");
