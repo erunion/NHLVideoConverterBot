@@ -148,7 +148,8 @@ return [
         /*
          * Third-party service providers
          */
-        //Erunion\Providers\ExamineConfigServiceProvider::class,
+        Erunion\Providers\ExamineConfigServiceProvider::class,
+        Kozz\Laravel\Providers\Guzzle::class
     ],
 
     /*
@@ -178,6 +179,7 @@ return [
         'Event'     => Illuminate\Support\Facades\Event::class,
         'File'      => Illuminate\Support\Facades\File::class,
         //'Gate'      => Illuminate\Support\Facades\Gate::class,
+        'Guzzle' => Kozz\Laravel\Facades\Guzzle::class,
         //'Hash'      => Illuminate\Support\Facades\Hash::class,
         'Input'     => Illuminate\Support\Facades\Input::class,
         //'Inspiring' => Illuminate\Foundation\Inspiring::class,
