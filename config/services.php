@@ -14,7 +14,11 @@ return [
     |
     */
 
-    'mailgun' => [
+    'reddit' => [
+        'user_agent' => 'NHLVideoConverterBot:1.0.0 (by /u/lorderunion)'
+    ]
+
+    /*'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
     ],
@@ -33,6 +37,5 @@ return [
         'model'  => App\User::class,
         'key'    => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
-    ],
-
+    ],*/
 ];

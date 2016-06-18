@@ -29,133 +29,6 @@ class NHLVideo extends Command
      */
     public function handle()
     {
-        $video_url_template = 'http://video.%s.nhl.com/videocenter/console';
-        $teams = [
-            // Western Conference
-            'Anaheim Ducks' => [
-                'subreddit' => 'anaheimducks',
-                'nhl_code' => 'ducks'
-            ],
-            'Arizona Coyotes' => [
-                'subreddit' => 'coyotes',
-                'nhl_code' => 'coyotes',
-            ],
-            'Calgary Flames' => [
-                'subreddit' => 'calgaryflames',
-                'nhl_code' => 'flames'
-            ],
-            'Chicago Blackhawks' => [
-                'subreddit' => 'hawks',
-                'nhl_code' => 'blackhawks'
-            ],
-            'Colorado Avalanche' => [
-                'subreddit' => 'coloradoavalanche',
-                'nhl_code' => 'avalanche'
-            ],
-            'Dallas Stars' => [
-                'subreddit' => 'dallasstars',
-                'nhl_code' => 'stars'
-            ],
-            'Edmonton Oilers' => [
-                'subreddit' => 'edmontonoilers',
-                'nhl_code' => 'oilers'
-            ],
-            'Los Angeles Kings' => [
-                'subreddit' => 'losangeleskings',
-                'nhl_code' => 'kings'
-            ],
-            'Minnesota Wild' => [
-                'subreddit' => 'wildhockey',
-                'nhl_code' => 'wild'
-            ],
-            'Nashville Predators' => [
-                'subreddit' => 'predators',
-                'nhl_code' => 'predators'
-            ],
-            'San Jose Sharks' => [
-                'subreddit' => 'sanjosesharks',
-                'nhl_code' => 'sharks'
-            ],
-            'St. Louis Blues' => [
-                'subreddit' => 'stlouisblues',
-                'nhl_code' => 'blues'
-            ],
-            'Vancouver Canucks' => [
-                'subreddit' => 'canucks',
-                'nhl_code' => 'canucks'
-            ],
-            'Winnipeg Jets' => [
-                'subreddit' => 'winnipegjets',
-                'nhl_code' => 'jets'
-            ],
-
-            // Eastern Conference
-            'Boston Bruins' => [
-                'subreddit' => 'bostonbruins',
-                'nhl_code' => 'bruins'
-            ],
-            'Buffalo Sabres' => [
-                'subreddit' => 'sabres',
-                'nhl_code' => 'sabres'
-            ],
-            'Carolina Hurricanes' => [
-                'subreddit' => 'canes',
-                'nhl_code' => 'hurricanes'
-            ],
-            'Columbus Blue Jackets' => [
-                'subreddit' => 'bluejackets',
-                'nhl_code' => 'bluejackets'
-            ],
-            'Detroit Red Wings' => [
-                'subreddit' => 'detroitredwings',
-                'nhl_code' => 'redwings'
-            ],
-            'Florida Panthers' => [
-                'subreddit' => 'floridapanthers',
-                'nhl_code' => 'panthers'
-            ],
-            'Montréal Canadiens' => [
-                'subreddit' => 'habs',
-                'nhl_code' => 'canadiens'
-            ],
-            'New Jersey Devils' => [
-                'subreddit' => 'devils',
-                'nhl_code' => 'devils'
-            ],
-            'New York Islanders' => [
-                'subreddit' => 'newyorkislanders',
-                'nhl_code' => 'islanders'
-            ],
-            'New York Rangers' => [
-                'subreddit' => 'rangers',
-                'nhl_code' => 'rangers'
-            ],
-            'Ottowa Senators' => [
-                'subreddit' => 'ottawasenators',
-                'nhl_code' => 'senators'
-            ],
-            'Philadelphia Flyers' => [
-                'subreddit' => 'flyers',
-                'nhl_code' => 'flyers'
-            ],
-            'Pittsburgh Penguins' => [
-                'subreddit' => 'penguins',
-                'nhl_code' => 'penguins'
-            ],
-            'Tampa Bay Lightning' => [
-                'subreddit' => 'tampabaylightning',
-                'nhl_code' => 'lightning'
-            ],
-            'Totonto Maple Leafs' => [
-                'subreddit' => 'leafs',
-                'nhl_code' => 'mapleleafs'
-            ],
-            'Washington Capitals' => [
-                'subreddit' => 'caps',
-                'nhl_code' => 'capitals'
-            ]
-        ];
-
         $videos = [
             ##
             ## SUPPORTED
@@ -168,11 +41,12 @@ class NHLVideo extends Command
             //'http://video.oilers.nhl.com/videocenter/console?id=840468&catid=4'
             //'http://video.kings.nhl.com/videocenter/console?id=840648'
             //'http://video.hurricanes.nhl.com/videocenter/console?id=840607&catid=684'
-            //'http://video.nhl.com/videocenter/console?id=819770'
+            //'http://video.nhl.com/videocenter/console?id=819770',
+            //'http://video.nhl.com/videocenter/console?id=830129&catid=345',
 
             // schema 2
             //'http://video.nhl.com/videocenter/console?id=73534'
-            'http://video.nhl.com/videocenter/console?id=209243'
+            //'http://video.nhl.com/videocenter/console?id=209243'
 
             ##
             ## NOT SUPPORTED
@@ -181,6 +55,8 @@ class NHLVideo extends Command
             ##
             ## UNTESTED
             ##
+
+            'http://video.nhl.com/videocenter/console?catid=1528&id=840482&lang=en'
         ];
 
         $video_url = current($videos);
@@ -242,10 +118,39 @@ class NHLVideo extends Command
                 throw new Exception($url . ' is not yet supported.');
             }
 
+            $url_response = Guzzle::head($url);
+            $content_type = $url_response->getHeader('Content-Type')[0];
+            $content_length = $url_response->getHeader('Content-Length')[0];
+            if ($url_response->getStatusCode() !== 200) {
+                throw new Exception($url . ' has some issues loading.');
+            } elseif ($content_type !== 'video/mp4') {
+                throw new Exception($url . ' is a ' . $content_type);
+            }
+
             dd([
                 'video' => $url,
-                'title' => $video_name
+                'title' => $video_name,
+                'filesize' => $this->formatSizeUnits($content_length)
             ]);
         }
+    }
+
+    private function formatSizeUnits($bytes)
+    {
+        if ($bytes >= 1073741824) {
+            $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+        } elseif ($bytes >= 1048576) {
+            $bytes = number_format($bytes / 1048576, 2) . ' MB';
+        } elseif ($bytes >= 1024) {
+            $bytes = number_format($bytes / 1024, 2) . ' KB';
+        } elseif ($bytes > 1) {
+            $bytes = $bytes . ' bytes';
+        } elseif ($bytes == 1) {
+            $bytes = $bytes . ' byte';
+        } else {
+            $bytes = '0 bytes';
+        }
+
+        return $bytes;
     }
 }
